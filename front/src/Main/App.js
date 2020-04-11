@@ -1,13 +1,25 @@
 import React from 'react';
-import logo from '../logo.svg';
 import './App.css';
+import Data from '../Data/Data'; 
+import storageHandler from '../utils/localStorage/storage';
 
-function App() {
-  return (
-    <div className="App">
-      <button>Keukou</button>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+  
+  }
+
+  componentDidMount() {
+    window.storageHandler = storageHandler;
+  } 
+
+  render() {
+    return (
+      <>
+        <Data/>
+        <button>Keukou</button>
+      </>
+    )
+  }
 }
 
 export default App;

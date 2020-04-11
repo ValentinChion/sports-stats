@@ -1,0 +1,151 @@
+/**
+ * Contains different type of functions to query the local storage
+ * In the future, we may use a server-side data
+ */
+
+const ls = localStorage;
+const setItem = (objectKey, data) => ls.setItem(objectKey, JSON.stringify(data));
+const getItem = (objectKey) => JSON.parse(ls.getItem(objectKey));
+
+const storageHandler = {
+    /**
+     * Set some Data in Local Storage
+     * Ids are auto-increment, and cannot be inputed.
+     * @param {string} objectKey key of data. Will be used to get it later.
+     * @param {Object} data JSON object to store in local storage
+     * @param {string} [id] By default, data will not be erased. If you want to replace it, put id of data here.
+     * 
+     * @returns {(boolean|string)} True if succeeded, False if not. Will try to find why and send you a string in that case. 
+     */
+    set: (objectKey, data, id) => {
+        if (objectKey && typeof objectKey === "string") {
+            let dataType;
+            // First, let's check the data
+            if (typeof data === "object") {
+                if (Array.isArray(data)) {
+                    dataType = "array";
+                    data = {
+                        id: 1,
+                        value: data
+                    }
+                } else {
+                    if (data.hasOwnProperty("id")) {
+                        return "You should not try to set any id in you object."
+                    }
+                    dataType = "object";
+                    data = {
+                        id: 1,
+                        ...data
+                    }
+                }
+            } else if (typeof data === "number" || typeof data === "string") {
+                dataType = typeof data;
+                data = {
+                    id: 1,
+                    value: data
+                }
+            } else if (typeof data === "undefined" || typeof data === "function") {
+                return 'You should not try to insert undefined or function objects in local Storage.'
+            }
+
+            // New key to insert
+            if (!ls.hasOwnProperty(objectKey)) {
+                if(id) return "An id is entered but objectKey does not exist !\n You should create the object first before trying to replace by id."
+                data = {
+                    autoIncrement: 1,
+                    values: [data]
+                }
+                setItem(objectKey, data);
+                return true;
+            // Add or replace inside a key
+            } else {
+                let datas = getItem(objectKey);
+                // Replace with id
+                if (id) {
+                    id = +id;
+                    if(id === NaN || !Number.isInteger(id)) return "Id could not be read. Note that only integers can be used."
+                    if (id > datas.autoIncrement) return "Id does not exist."
+                    let isIdFound = false;
+                    for (let i = 0; i < datas.values.length; i++) {
+                        const element = datas.values[i];
+                        if (element.id = id) {
+                            data.id = id
+                            if (data.hasOwnProperty("value") !== datas.values[i].hasOwnProperty("value") || (data.hasOwnProperty("value") && dataType !== typeof datas.values[i].value)) {
+                                return "You are trying to replace object without the same type, you should not."
+                            }
+                            datas.values[i] = data;
+                            isIdFound = true;
+                            break;
+                        }
+                    };
+                    if (!isIdFound) return "Id does not exist."
+                    setItem(objectKey, datas);
+                } else {
+                    // Add inside a key.
+                    datas.autoIncrement++;
+                    data.id = datas.autoIncrement;
+                    datas.values.push(data);
+                    setItem(objectKey, datas);
+                }
+            }
+        } else return "ObjectKey is not a string or is empty."
+    },
+
+    /**
+     * Retrieve data from Local Storage
+     * @param {string} objectKey key of data. Must be the one used during setData.
+     * @param {(string|number|string[]|number[])} [ids] If empty, will return all objects that it can found. Otherwise, it will try to find based on this parameter.
+     * 
+     * @returns {(Object|string)} If string, an error occurred. If it could not find any data, JSON will be empty.
+     */
+    get: (objectKey, ids) => {
+        if (ls.hasOwnProperty(objectKey)) {
+            const loopItems = (id, items) => {
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+                    if (id === item.id) {
+                        return item
+                    }
+                }
+                return undefined;
+            }
+            let itemsContainer = getItem(objectKey);
+            if (ids) {
+                let result;
+                if (Array.isArray(ids)) {
+                    if(ids.some((id) => {
+                        id = +id;
+                        if(id === NaN || !Number.isInteger(id)) return true
+                        if (id > itemsContainer.autoIncrement) return true 
+                    })) return "Multiple ids provided: One of them is a syntax error.";
+                    result = [];
+                    ids.forEach(id => {
+                        const tempResult = loopItems(id, itemsContainer.values);
+                        if (!tempResult) return "Multiple ids provided: One of them could not be found.";
+                        result.push(tempResult);
+                    })
+                } else {
+                    ids = +ids;
+                    if(ids === NaN || !Number.isInteger(ids)) return "Single id provided: It is not an integer."
+                    if (ids > itemsContainer.autoIncrement) return "Single id provided: Could not be found."
+                    result = loopItems(ids, itemsContainer.values);
+                    if (!result) return "Single id provided: Could not be found";
+                }
+                return result;
+            } else return itemsContainer.values;
+        } else return "ObjectKey does not exist in storage !"
+    },
+
+    /**
+     * Remove data from Local Storage.
+     * @param {string} objectKey key of data. Must be the one used during setData.
+     * @param {(string|number|string[]|number[])} [ids] If empty, will return all objects that it can found. Otherwise, it will try to find based on this parameter.
+     * 
+     * @returns {boolean|string} True if succeded, False if not. Some errors are catched and returned.
+     */
+    delete: (objectKey, ids) => {
+
+    }
+};
+
+export default storageHandler;
