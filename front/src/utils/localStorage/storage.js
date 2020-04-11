@@ -6,6 +6,14 @@
 const ls = localStorage;
 const setItem = (objectKey, data) => ls.setItem(objectKey, JSON.stringify(data));
 const getItem = (objectKey) => JSON.parse(ls.getItem(objectKey));
+const idsChecker = (itemsContainer, ids) => {
+    return ids.some((id) => {
+        id = +id;
+        if(isNaN(id) || !Number.isInteger(id)) return true
+        if (id > itemsContainer.autoIncrement) return true 
+        return false;
+    })
+}
 
 const storageHandler = {
     /**
@@ -63,12 +71,12 @@ const storageHandler = {
                 // Replace with id
                 if (id) {
                     id = +id;
-                    if(id === NaN || !Number.isInteger(id)) return "Id could not be read. Note that only integers can be used."
+                    if(isNaN(id) || !Number.isInteger(id)) return "Id could not be read. Note that only integers can be used."
                     if (id > datas.autoIncrement) return "Id does not exist."
                     let isIdFound = false;
                     for (let i = 0; i < datas.values.length; i++) {
                         const element = datas.values[i];
-                        if (element.id = id) {
+                        if (element.id === id) {
                             data.id = id
                             if (data.hasOwnProperty("value") !== datas.values[i].hasOwnProperty("value") || (data.hasOwnProperty("value") && dataType !== typeof datas.values[i].value)) {
                                 return "You are trying to replace object without the same type, you should not."
@@ -113,11 +121,7 @@ const storageHandler = {
             if (ids) {
                 let result;
                 if (Array.isArray(ids)) {
-                    if(ids.some((id) => {
-                        id = +id;
-                        if(id === NaN || !Number.isInteger(id)) return true
-                        if (id > itemsContainer.autoIncrement) return true 
-                    })) return "Multiple ids provided: One of them is a syntax error.";
+                    if (idsChecker(itemsContainer, ids)) return "Multiple ids provided: One of them is a syntax error.";
                     result = [];
                     ids.forEach(id => {
                         const tempResult = loopItems(id, itemsContainer.values);
@@ -126,7 +130,7 @@ const storageHandler = {
                     })
                 } else {
                     ids = +ids;
-                    if(ids === NaN || !Number.isInteger(ids)) return "Single id provided: It is not an integer."
+                    if(isNaN(ids) || !Number.isInteger(ids)) return "Single id provided: It is not an integer."
                     if (ids > itemsContainer.autoIncrement) return "Single id provided: Could not be found."
                     result = loopItems(ids, itemsContainer.values);
                     if (!result) return "Single id provided: Could not be found";
@@ -144,7 +148,37 @@ const storageHandler = {
      * @returns {boolean|string} True if succeded, False if not. Some errors are catched and returned.
      */
     delete: (objectKey, ids) => {
+        if (ls.hasOwnProperty(objectKey)) {
+            let itemsContainer = getItem(objectKey); 
+            if (ids) {
+                if (!Array.isArray(ids)) ids = [ids]; 
+                if (idsChecker(itemsContainer, ids)) return "One of the ids provided could not be found.";
+                else {
+                    let newValues = [];
+                    let deletedValues = [];
+                    itemsContainer.values.forEach(item => {
+                        if (!ids.includes(item.id)) newValues.push(item);
+                        else deletedValues.push(item);
+                    })
+                    itemsContainer.values = newValues;
+                    setItem(objectKey, itemsContainer);
+                    return deletedValues;
+                }
+            } else {
+                ls.removeItem(objectKey);
+                return itemsContainer;
+            }
+        } return "ObjectKey does not exist in storage !"
+    },
 
+    /**
+     * Checks if the passing parameter is a string, if it is, returns true, else false.
+     * All the functions above return string if any error occurred.
+     * @param {} response the return object from one of the function of this local storage util.
+     * @returns {boolean}
+     */
+    isError: (response) => {
+        return typeof response === "string";
     }
 };
 
