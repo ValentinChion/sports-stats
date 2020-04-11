@@ -9,7 +9,9 @@ class DataDisplayer extends React.Component {
   render() {
     return (
       <>
+      <section className="flex five grow">
         <ManageSports/>
+      </section>
       </>
     )
   }

@@ -3,7 +3,7 @@ import ManageSportsDisplayer from './ManageSportsDisplayer';
 
 class ManageSports extends React.Component {
   state = {
-    
+
   }
 
   render() {
