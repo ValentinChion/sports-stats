@@ -1,3 +1,7 @@
 .content {
     margin: 2em 3em 0 3em;
 }
+
+.hidden {
+    display: none;
+}
