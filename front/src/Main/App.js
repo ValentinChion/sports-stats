@@ -15,8 +15,10 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <Data/>
-        <button>Keukou</button>
+        <div className="content">
+          <Data/>
+          <button>Keukou</button>
+        </div>
       </>
     )
   }
