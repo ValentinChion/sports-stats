@@ -22,3 +22,11 @@
     padding-right: 3em;
     padding-left: 3em;
 }
+
+.emphasize {
+    background-color: #4240ED;
+}
+
+.prim {
+    background-color: #052168;
+}

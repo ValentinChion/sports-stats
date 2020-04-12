@@ -21,7 +21,6 @@ class App extends React.Component {
       <>
         <div className="content">
           <Data/>
-          <button>Keukou</button>
         </div>
       </>
     )

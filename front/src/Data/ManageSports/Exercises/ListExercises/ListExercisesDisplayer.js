@@ -16,16 +16,16 @@ class ListExercisesDisplayer extends React.Component {
       <table className="primary">
         <thead>
           <tr>
-            <th>
+            <th className="emphasize">
               Nom
             </th>
-            <th>
+            <th className="emphasize">
               Type d'exercice
             </th>
-            <th>
+            <th className="emphasize">
               Défault
             </th>
-            <th>
+            <th className="emphasize">
               Supprimer ?
             </th>
           </tr>

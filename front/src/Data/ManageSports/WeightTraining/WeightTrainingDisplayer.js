@@ -1,7 +1,8 @@
 import React from 'react';
-import AddExercise from '../AddExercise/AddExercise';
 import constants from '../../../utils/constants/global';
-import ListExercises from '../ListExercises/ListExercises';
+import ListExercises from '../Exercises/ListExercises/ListExercises';
+import AddExercise from '../Exercises/AddExercise/AddExercise';
+import AddSession from '../Sessions/AddSession/AddSession';
 
 class WeightTrainingDisplayer extends React.Component {
   state = {
@@ -11,6 +12,7 @@ class WeightTrainingDisplayer extends React.Component {
   render() {
     return (
       <>
+        <AddSession sportType="weightTraining"/>
         <ListExercises sportType="weightTraining"/>
         <AddExercise sportType="weightTraining"
                      exerciseTypes={constants.WEIGHT_TRAINING.TYPES}/>

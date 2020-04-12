@@ -1,6 +1,7 @@
 import React from 'react';
-import Select from '../../../Components/Select';
-import TextInput from '../../../Components/TextInput';
+import Select from '../../../../Components/Select';
+import TextInput from '../../../../Components/TextInput';
+
 
 class AddExerciseDisplayer extends React.Component {
   state = {
@@ -23,13 +24,13 @@ class AddExerciseDisplayer extends React.Component {
 
     return (
       <>
-        <button onClick={handleClickAddExercise}>{buttonContent}</button>
+        <button className="emphasize" onClick={handleClickAddExercise}>{buttonContent}</button>
         <div className={displayForm}>
           <fieldset className="flex">
             <label>
               <TextInput name="exerciseName"
-                        placeholder="Nom de l'exercise"
-                        handleChange={handleChangeInput}/>
+                         placeholder="Nom de l'exercise"
+                         handleChange={handleChangeInput}/>
             </label>
             {nameError && <div className="flex grow big"><span className="label error">L'exercise existe déjà.</span></div>}
             <label>
@@ -44,7 +45,7 @@ class AddExerciseDisplayer extends React.Component {
                         placeholder="Valeur par défault"
                         handleChange={handleChangeInput}/>
             </label>
-            <button onClick={addExerciseType}>Créer le nouvel exercice</button>
+            <button className="emphasize" onClick={addExerciseType}>Créer le nouvel exercice</button>
           </fieldset>
         </div>
       </>

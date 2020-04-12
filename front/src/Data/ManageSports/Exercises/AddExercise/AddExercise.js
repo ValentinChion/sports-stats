@@ -1,6 +1,6 @@
 import React from 'react';
 import AddExerciseDisplayer from './AddExerciseDisplayer';
-import storageHandler from '../../../utils/localStorage/storage';
+import storageHandler from '../../../../utils/localStorage/storage';
 
 class AddExercise extends React.Component {
   state = {

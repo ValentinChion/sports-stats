@@ -1,6 +1,6 @@
 import React from 'react';
 import ListExercisesDisplayer from './ListExercisesDisplayer';
-import storageHandler from '../../../utils/localStorage/storage';
+import storageHandler from '../../../../utils/localStorage/storage';
 
 class ListExercises extends React.Component {
   state = {
@@ -17,9 +17,9 @@ class ListExercises extends React.Component {
   }
 
   handleNewExercise = (e) => {
-    this.setState({
+    e.key === this.props.sportType && this.setState({
       exercises: JSON.parse(e.value).values[0].exercises
-    })
+    });
   }
 
   delExercise = (idxEx) => () => {
