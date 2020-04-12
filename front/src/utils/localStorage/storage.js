@@ -28,6 +28,7 @@ const storageHandler = {
     set: (objectKey, data, id) => {
         if (objectKey && typeof objectKey === "string") {
             let dataType;
+            let dataHasId = false;
             // First, let's check the data
             if (typeof data === "object") {
                 if (Array.isArray(data)) {
@@ -37,13 +38,14 @@ const storageHandler = {
                         value: data
                     }
                 } else {
-                    if (data.hasOwnProperty("id")) {
-                        return "You should not try to set any id in you object."
-                    }
                     dataType = "object";
-                    data = {
-                        id: 1,
-                        ...data
+                    if (data.hasOwnProperty("id")) {
+                        dataHasId = true
+                    } else {
+                        data = {
+                            id: 1,
+                            ...data
+                        }
                     }
                 }
             } else if (typeof data === "number" || typeof data === "string") {
@@ -88,12 +90,29 @@ const storageHandler = {
                     };
                     if (!isIdFound) return "Id does not exist."
                     setItem(objectKey, datas);
+                    return true
                 } else {
-                    // Add inside a key.
-                    datas.autoIncrement++;
-                    data.id = datas.autoIncrement;
-                    datas.values.push(data);
-                    setItem(objectKey, datas);
+                    // If an id is provided inside data, we replace id found.
+                    if (dataHasId) {
+                        id = data.id
+                        let idxData;
+                        let replaceData = datas.values.filter((item, idx) => {
+                            if (id === item.id) {
+                                idxData = idx;
+                                return true
+                            } return false
+                        })
+                        if (replaceData.length !== 1) return "There is none or multiple objects with id provided inside the object."
+                        datas.values[idxData] = data;
+                        setItem(objectKey, datas);
+                    } else {
+                        // Add inside a key.
+                        datas.autoIncrement++;
+                        data.id = datas.autoIncrement;
+                        datas.values.push(data);
+                        setItem(objectKey, datas);
+                    }
+                    return true
                 }
             }
         } else return "ObjectKey is not a string or is empty."
@@ -179,6 +198,16 @@ const storageHandler = {
      */
     isError: (response) => {
         return typeof response === "string";
+    },
+
+    /**
+     * Check if a key exists or not in storage
+     * @param {string} objectKey the value of the key to check
+     * 
+     * @returns {boolean}
+     */
+    exists: (objectKey) => {
+        return ls.hasOwnProperty(objectKey);
     }
 };
 
