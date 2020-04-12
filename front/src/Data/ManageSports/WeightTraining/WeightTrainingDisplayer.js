@@ -1,5 +1,6 @@
 import React from 'react';
 import AddExercise from '../AddExercise/AddExercise';
+import constants from '../../../utils/constants/global';
 
 class WeightTrainingDisplayer extends React.Component {
   state = {
@@ -9,8 +10,8 @@ class WeightTrainingDisplayer extends React.Component {
   render() {
     return (
       <>
-        <AddExercise />
-        <button>Weight Training</button>
+        <AddExercise sportType="weightTraining"
+                     exerciseTypes={constants.WEIGHT_TRAINING.TYPES}/>
       </>
     )
   }

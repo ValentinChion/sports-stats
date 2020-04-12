@@ -1,49 +1,50 @@
 import React from 'react';
 import Select from '../../../Components/Select';
-import constants from '../../../utils/constants/global';
+import TextInput from '../../../Components/TextInput';
 
 class AddExerciseDisplayer extends React.Component {
   state = {
-    displayForm: "hidden",
-    buttonContent: "Ajouter un exercice",
-    exerciseType: "notChoosed"
   }
 
-  handleClickAddExercise = (e) => {
-    let triggerForm;
-    let triggerButton;
-    if (this.state.displayForm) {
-      triggerForm = ""
-      triggerButton = "Annuler l'ajout d'exercice"
-    } else {
-      triggerForm = "hidden"
-      triggerButton = "Ajouter un exercice"
-    }
-
-    this.setState({
-      displayForm: triggerForm,
-      buttonContent: triggerButton
-    })
-  }
-
-  handleExerciseType = (e) => {
-    this.setState({
-      exerciseType: e.target.value
-    })
-  }
 
   render() {
+    const {
+      displayForm,
+      buttonContent,
+      exerciseType,
+      handleClickAddExercise,
+      handleExerciseType,
+      handleChangeInput,
+      optionsExerciseTypes,
+      addExerciseType,
+      nameError,
+      typeError
+    } = this.props;
+
     return (
       <>
-        <button onClick={this.handleClickAddExercise}>{this.state.buttonContent}</button>
-        <div className={this.state.displayForm}>
+        <button onClick={handleClickAddExercise}>{buttonContent}</button>
+        <div className={displayForm}>
           <fieldset className="flex">
-            <label><input type="name" placeholder="Nom de l'exercise"></input></label>
-            <label><Select handleOptionChoosed={this.handleExerciseType}
-                  optionValues={["notChoosed"].concat(constants.WEIGHT_TRAINING.TYPES)}
-                  choosedValue={this.state.exerciseType}
-                  textDisplayOptions={["Type d'exercise"].concat(constants.WEIGHT_TRAINING.TYPES)}/></label>
-            <label><input type="defaultValue" placeholder="Valeur par défault"></input></label>
+            <label>
+              <TextInput name="exerciseName"
+                        placeholder="Nom de l'exercise"
+                        handleChange={handleChangeInput}/>
+            </label>
+            {nameError && <div className="flex grow big"><span className="label error">L'exercise existe déjà.</span></div>}
+            <label>
+              <Select handleOptionChoosed={handleExerciseType}
+                      optionValues={["notChoosed"].concat(optionsExerciseTypes)}
+                      choosedValue={exerciseType}
+                      textDisplayOptions={["Type d'exercise"].concat(optionsExerciseTypes)}/>
+            </label>
+            {typeError && <div className="flex grow big"><span className="label error">Le type est obligatoire.</span></div>}
+            <label>
+              <TextInput name="defaultValue"
+                        placeholder="Valeur par défault"
+                        handleChange={handleChangeInput}/>
+            </label>
+            <button onClick={addExerciseType}>Créer le nouvel exercice</button>
           </fieldset>
         </div>
       </>
