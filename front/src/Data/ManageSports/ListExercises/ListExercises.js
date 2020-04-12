@@ -22,10 +22,21 @@ class ListExercises extends React.Component {
     })
   }
 
+  delExercise = (idxEx) => () => {
+    let exercises = this.state.exercises;
+    exercises.splice(idxEx, 1);
+    let data = storageHandler.get(this.props.sportType)[0];
+    data.exercises = exercises;
+    const storageError = storageHandler.set(this.props.sportType, data);
+
+    storageError && console.log(storageError)
+  }
+
   render() {
     return (
       <>
-        <ListExercisesDisplayer exercises={this.state.exercises}/>
+        <ListExercisesDisplayer exercises={this.state.exercises}
+                                delExercise={this.delExercise}/>
       </>
     )
   }

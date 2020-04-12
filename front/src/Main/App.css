@@ -9,3 +9,16 @@
 .big {
     font-size: 1.5em;
 }
+
+.small {
+    font-size: 0.75em;
+}
+
+.center {
+    text-align: center;
+}
+
+.tab-container {
+    padding-right: 3em;
+    padding-left: 3em;
+}

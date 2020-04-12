@@ -11,9 +11,9 @@ class WeightTrainingDisplayer extends React.Component {
   render() {
     return (
       <>
+        <ListExercises sportType="weightTraining"/>
         <AddExercise sportType="weightTraining"
                      exerciseTypes={constants.WEIGHT_TRAINING.TYPES}/>
-        <ListExercises sportType="weightTraining"/>
       </>
     )
   }
