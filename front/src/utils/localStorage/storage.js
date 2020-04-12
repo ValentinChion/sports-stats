@@ -3,6 +3,16 @@
  * In the future, we may use a server-side data
  */
 
+const originalSetItem = localStorage.setItem;
+localStorage.setItem = function(key, value) {
+    var event = new Event('storageSet');
+    event.value = value;
+    event.key = key;
+    document.dispatchEvent(event);
+
+    originalSetItem.apply(this, arguments);
+}
+
 const ls = localStorage;
 const setItem = (objectKey, data) => ls.setItem(objectKey, JSON.stringify(data));
 const getItem = (objectKey) => JSON.parse(ls.getItem(objectKey));
