@@ -6,7 +6,7 @@ class StatNumber extends React.Component {
   }
 
   render() {
-    const {
+    let {
       title,
       number
     } = this.props;

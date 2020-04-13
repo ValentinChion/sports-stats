@@ -14,7 +14,7 @@ class AllDisplayer extends React.Component {
 
     return (
       <>
-        <h2>RÉPÉTITIONS EFFECTUÉES</h2>
+        <h3>RÉPÉTITIONS EFFECTUÉES</h3>
         <div className="flex two three-600 four-800 six-1200 center">
           {repetitionsByExercise && Object.entries(repetitionsByExercise).map(exercise => 
             <StatNumber title={exercise[0]}

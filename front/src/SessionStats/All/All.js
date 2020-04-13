@@ -2,6 +2,7 @@ import React from 'react';
 import AllDisplayer from './AllDisplayer';
 import constants from '../../utils/constants/global';
 import storageHandler from '../../utils/localStorage/storage';
+import moment from 'moment';
 
 class All extends React.Component {
   state = {
@@ -52,6 +53,10 @@ class All extends React.Component {
         sportData[0].exercises.map((exercise) => {
           if (!count.hasOwnProperty(exercise.name)) {
             count[exercise.name] = 0
+          } else {
+            if (exercise.type === "Temps") {
+              count[exercise.name] = moment.utc(moment.duration(count[exercise.name], "seconds").asMilliseconds()).format("HH:mm:ss");
+            }
           }
           return "";
         })
