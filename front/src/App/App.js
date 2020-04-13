@@ -1,10 +1,12 @@
 import React from 'react';
 import './App.css';
-import Data from '../Data/Data'; 
 import storageHandler from '../utils/localStorage/storage';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import Sports from '../Sports/Sports';
+
 
 library.add(faTrashAlt)
 
@@ -21,7 +23,7 @@ class App extends React.Component {
     return (
       <>
         <div className="content">
-          <Data/>
+          <Sports/>
         </div>
       </>
     )

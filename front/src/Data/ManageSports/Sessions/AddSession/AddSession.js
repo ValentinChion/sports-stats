@@ -105,12 +105,15 @@ class AddSession extends React.Component {
       exerciseValues
     } = this.state;
 
-    let session = exerciseChoosed.map((exerciseName, idxEx) => {
-      return {
-        name: exerciseName,
-        training: exerciseValues[idxEx]
-      }
-    })
+    let session = {
+      date: this.state.sessionDate,
+      exercises:  exerciseChoosed.map((exerciseName, idxEx) => {
+                    return {
+                      name: exerciseName,
+                      training: exerciseValues[idxEx]
+                    }
+                  })
+    }
 
     const sportContainer = storageHandler.get(this.props.sportType);
     if (!storageHandler.isError(sportContainer)) {
@@ -123,12 +126,13 @@ class AddSession extends React.Component {
       }
       sportContainer[0].sessions = sessions;
       const result = storageHandler.set(this.props.sportType, sportContainer[0]);
-
       if (storageHandler.isError(result)) console.log(result);
     } else console.log(sportContainer);
   }
 
-  handleDateChanged = (date) => this.setState({sessionDate: date.date});
+  handleDateChanged = (date) => {
+    this.setState({sessionDate: date});
+  }
   handleDateFocus = (focused) => {this.setState({focused: focused.focused});}
 
   render() {

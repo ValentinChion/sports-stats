@@ -1,8 +1,8 @@
 import React from 'react';
-import constants from '../../../utils/constants/global';
-import ListExercises from '../Exercises/ListExercises/ListExercises';
-import AddExercise from '../Exercises/AddExercise/AddExercise';
-import AddSession from '../Sessions/AddSession/AddSession';
+import constants from '../../utils/constants/global';
+import AddSession from '../../Data/ManageSports/Sessions/AddSession/AddSession';
+import ListExercises from '../../Data/ManageSports/Exercises/ListExercises/ListExercises';
+import AddExercise from '../../Data/ManageSports/Exercises/AddExercise/AddExercise';
 
 class WeightTrainingDisplayer extends React.Component {
   state = {

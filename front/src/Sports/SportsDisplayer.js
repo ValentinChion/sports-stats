@@ -1,32 +1,17 @@
 import React from 'react';
-import constants from '../../utils/constants/global';
-import stringUtils from '../../utils/string';
 import Running from './Running/Running';
 import WeightTraining from './WeightTraining/WeightTraining';
 import BasketBall from './BasketBall/BasketBall';
-import Select from '../../Components/Select';
 
-class ManageSportsDisplayer extends React.Component {
+class SportsDisplayer extends React.Component {
   state = {
-    choosedSport: "notChoosed"
+    
   }
-
-  handleOptionChoosed = (e) => {
-    this.setState({
-      choosedSport: e.target.value
-    })
-  }
-
-  sportsComponents = [
-    <Running />,
-    <WeightTraining />,
-    <BasketBall />
-  ]
 
   render() {
-    let sportComponent = this.state.choosedSport === "notChoosed" ? <></> : this.sportsComponents[this.state.choosedSport];
     return (
       <>
+      <section className="flex grow">
         <div className="tabs three">
           <input id='tab-1' type='radio' name='tabgroupB' defaultChecked />
           <label className="pseudo button toggle" htmlFor="tab-1">Running</label>
@@ -46,9 +31,10 @@ class ManageSportsDisplayer extends React.Component {
             </div>
           </div>
         </div>
+      </section>
       </>
     )
   }
 }
 
-export default ManageSportsDisplayer;
+export default SportsDisplayer;

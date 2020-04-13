@@ -1,6 +1,9 @@
 import React from 'react';
 import { SingleDatePicker } from 'react-dates';
+import { isInclusivelyBeforeDay } from 'react-dates';
 import SessionFillerDisplayer from './SessionFillerDisplayer';
+import moment from 'moment';
+import 'moment/locale/fr';
 
 class AddSessionDisplayer extends React.Component {
 
@@ -34,7 +37,8 @@ class AddSessionDisplayer extends React.Component {
             <SingleDatePicker date={sessionDate} 
                               onDateChange={handleDateChanged} 
                               focused={focused} 
-                              onFocusChange={handleDateFocus} 
+                              onFocusChange={handleDateFocus}
+                              isOutsideRange={day => !isInclusivelyBeforeDay(day, moment())}
                               id="1"/>
             <h4>Nombre d'exercices</h4>
             <label className="half fourth-1000">
