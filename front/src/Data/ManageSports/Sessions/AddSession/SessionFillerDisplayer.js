@@ -8,13 +8,13 @@ class SessionFillerDisplayer extends React.Component {
 
   render() {
     const {
-      exerciseNbr,
       circuitNbr,
       exerciseValues,
       handleRepetChange,
       exerciseChoosed,
       exerciseNames,
-      handleChooseExercise } = this.props;
+      handleChooseExercise,
+      exerciseDefaults } = this.props;
 
     const arrayCircuit = Array(+circuitNbr).fill(1);
 
@@ -23,11 +23,11 @@ class SessionFillerDisplayer extends React.Component {
         <table>
           <thead>
             <tr>
-              <th  className="emphasize">
+              <th  className="emphasize min-w-200">
                 Exercise
               </th>
               {arrayCircuit.map(( _ , idx) => <th className="emphasize">
-                Circuit {++idx}
+                {++idx}
               </th>)}
             </tr>
           </thead>

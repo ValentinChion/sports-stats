@@ -7,10 +7,12 @@ class AddSession extends React.Component {
     displayForm: "hidden",
     buttonContent: "Remplir une nouvelle séance",
     exercises: undefined,
+    sessionDate: undefined,
+    focused: true,
     exerciseChoosed: [],
     exerciseNbr: 0,
     circuitNbr: 0,
-    exerciseValues: []
+    exerciseValues: [],
   }
 
   componentDidMount() {
@@ -77,10 +79,15 @@ class AddSession extends React.Component {
 
   handleChooseExercise = (idxEx) => (e) => {
     const exerciseChoosed = [...this.state.exerciseChoosed];
+    let exerciseValues = [...this.state.exerciseValues];
+    let defaultVal = this.state.exercises.find(exercise => exercise.name === e.target.value).default;
+    
     exerciseChoosed[idxEx] = e.target.value;
+    exerciseValues[idxEx] = exerciseValues[idxEx].map((repet) => repet === 0 ? defaultVal : repet);
 
     this.setState({
-      exerciseChoosed: exerciseChoosed
+      exerciseChoosed: exerciseChoosed,
+      exerciseValues: exerciseValues
     })
   }
 
@@ -91,6 +98,38 @@ class AddSession extends React.Component {
       exerciseValues: exerciseValues
     })
   }
+
+  handleAddSession = () => {
+    const {
+      exerciseChoosed,
+      exerciseValues
+    } = this.state;
+
+    let session = exerciseChoosed.map((exerciseName, idxEx) => {
+      return {
+        name: exerciseName,
+        training: exerciseValues[idxEx]
+      }
+    })
+
+    const sportContainer = storageHandler.get(this.props.sportType);
+    if (!storageHandler.isError(sportContainer)) {
+      let sessions;
+      if (sportContainer[0].hasOwnProperty("sessions")) {
+        sessions = sportContainer[0].sessions;
+        sessions.push(session);
+      } else {
+        sessions = [session]
+      }
+      sportContainer[0].sessions = sessions;
+      const result = storageHandler.set(this.props.sportType, sportContainer[0]);
+
+      if (storageHandler.isError(result)) console.log(result);
+    } else console.log(sportContainer);
+  }
+
+  handleDateChanged = (date) => this.setState({sessionDate: date.date});
+  handleDateFocus = (focused) => {this.setState({focused: focused.focused});}
 
   render() {
     return (
@@ -105,7 +144,12 @@ class AddSession extends React.Component {
                              exerciseNbr={this.state.exerciseNbr}
                              circuitNbr={this.state.circuitNbr}
                              exerciseValues={this.state.exerciseValues}
-                             handleRepetChange={this.handleRepetChange}/>
+                             handleRepetChange={this.handleRepetChange}
+                             handleAddSession={this.handleAddSession}
+                             sessionDate={this.state.sessionDate}
+                             handleDateChanged={this.handleDateChanged}
+                             focused={this.state.focused}
+                             handleDateFocus={this.handleDateFocus}/>
       </>
     )
   }
