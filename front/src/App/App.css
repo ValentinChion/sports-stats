@@ -25,6 +25,7 @@
 
 .emphasize {
     background-color: #4240ED;
+    color: #FCF7FB;
 }
 
 .prim {
@@ -37,4 +38,8 @@
 
 .box {
     box-sizing: border-box
+}
+
+.number {
+    padding: 0
 }

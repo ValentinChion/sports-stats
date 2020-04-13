@@ -6,6 +6,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import Sports from '../Sports/Sports';
+import Stats from '../SessionStats/Stats';
 
 
 library.add(faTrashAlt)
@@ -23,6 +24,7 @@ class App extends React.Component {
     return (
       <>
         <div className="content">
+          <Stats />
           <Sports/>
         </div>
       </>

@@ -11,12 +11,13 @@ class SportsDisplayer extends React.Component {
   render() {
     return (
       <>
+      <h3>GERER LES SEANCES</h3>
       <section className="flex grow">
         <div className="tabs three">
           <input id='tab-1' type='radio' name='tabgroupB' defaultChecked />
-          <label className="pseudo button toggle" htmlFor="tab-1">Running</label>
+          <label className="pseudo button toggle" htmlFor="tab-1">Course</label>
           <input id='tab-2' type='radio' name='tabgroupB' />
-          <label className="pseudo button toggle" htmlFor="tab-2">Weight Training</label>
+          <label className="pseudo button toggle" htmlFor="tab-2">Musculation</label>
           <input id='tab-3' type='radio' name='tabgroupB' />
           <label className="pseudo button toggle" htmlFor="tab-3">BasketBall</label>
           <div className="row">
