@@ -30,3 +30,11 @@
 .prim {
     background-color: #052168;
 }
+
+.min-w-200 {
+    min-width: 200px;
+}
+
+.box {
+    box-sizing: border-box
+}
