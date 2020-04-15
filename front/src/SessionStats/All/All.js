@@ -40,8 +40,8 @@ class All extends React.Component {
             
           }
         }
-        return accumulator
-      } else return current
+        return accumulator;
+      } else return current;
     }
 
     for (let i = 0; i < constants.AVAILABLE_SPORTS.length; i++) {
