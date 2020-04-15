@@ -47,7 +47,8 @@ class All extends React.Component {
     for (let i = 0; i < constants.AVAILABLE_SPORTS.length; i++) {
       const element = constants.AVAILABLE_SPORTS[i];
       const sportData = storageHandler.get(element);
-      if (!storageHandler.isError(sportData)) {
+      if (!storageHandler.isError(sportData) 
+          && sportData[0].hasOwnProperty("sessions")) {
         let count = sportData[0].sessions.reduce(countRepByEx, {});
 
         sportData[0].exercises.map((exercise) => {
