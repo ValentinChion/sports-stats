@@ -36,6 +36,10 @@
     min-width: 200px;
 }
 
+.min-w-150 {
+    min-width: 150px;
+}
+
 .box {
     box-sizing: border-box
 }
