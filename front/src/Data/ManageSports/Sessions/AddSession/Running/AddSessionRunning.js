@@ -103,6 +103,26 @@ class AddSessionRunning extends React.Component {
     let exercisesSession = [...this.state.exercisesSession];
     
     exercisesSession[idxEx].kmsTimes[idxKm] = e.target.value;
+    this.setState(exercisesSession);
+  }
+
+  addSessionRunning = () => {
+    let exercisesSession = [...this.state.exercisesSession];
+    let session = {
+      date: this.state.sessionDate,
+      exercises: exercisesSession
+    }
+
+    let runningContainer = storageHandler.get("running")[0];
+    if (!storageHandler.isError(runningContainer)) {
+      if (runningContainer.hasOwnProperty("sessions")) {
+        runningContainer.sessions.push(session);
+      } else {
+        runningContainer.sessions = [session];
+      }
+      const result = storageHandler.set("running", runningContainer)
+      if (storageHandler.isError(result)) console.log(result);
+    } else console.log(runningContainer);
   }
 
   render() {
@@ -124,7 +144,10 @@ class AddSessionRunning extends React.Component {
                                     // table form handlers
                                     exerciseNames={this.state.exercises && this.state.exercises.map(exercise => exercise.name)}
                                     handleChooseExercice={this.handleChooseExercice}
-                                    handleKmChange={this.handleKmChange}/>
+                                    handleKmChange={this.handleKmChange}
+                                    handleTimeInput={this.handleTimeInput}
+                                    // add created session
+                                    addSessionRunning={this.addSessionRunning}/>
       </>
     )
   }

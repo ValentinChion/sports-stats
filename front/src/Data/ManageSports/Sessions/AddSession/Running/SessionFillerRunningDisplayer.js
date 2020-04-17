@@ -11,7 +11,8 @@ class SessionFillerRunningDisplayer extends React.Component {
       exercisesSession,
       exerciseNames,
       handleChooseExercice,
-      handleKmChange
+      handleKmChange,
+      handleTimeInput
     } = this.props;
 
     const sizeArray = Math.ceil(
@@ -47,9 +48,9 @@ class SessionFillerRunningDisplayer extends React.Component {
                 <td>
                   <input type="number" onChange={handleKmChange(idxEx)} value={exercisesSession[idxEx].kms} /> 
                 </td>
-                {exercisesSession[idxEx].kmsTimes.map( (kmTime) => 
+                {exercisesSession[idxEx].kmsTimes.map( (kmTime, idxKm) => 
                   <td>
-                    <input type="number" onChange={handleKmChange(idxEx)} value={kmTime} />
+                    <input type="number" onChange={handleTimeInput(idxEx, idxKm)} value={kmTime} />
                   </td>)}
               </tr>)}
           </tbody>

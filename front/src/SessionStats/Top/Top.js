@@ -18,31 +18,34 @@ class Top extends React.Component {
       const sportData = storageHandler.get(element);
       if (!storageHandler.isError(sportData)
           && sportData[0].hasOwnProperty("sessions")) {
-        let maxs = sportData[0].sessions.reduce((acc, current) => {
-          current.exercises.map((exercise) => {
-            exercise.training = exercise.training.reduce(arrayUtils.sumReducer);
-            if (acc[exercise.name]) {
-              acc[exercise.name] = Math.max(acc[exercise.name], exercise.training);
-            } else acc[exercise.name] = exercise.training;
-          });
+        // TODO --> Make running data readable
+        if (element !== "running") {
+          let maxs = sportData[0].sessions.reduce((acc, current) => {
+            current.exercises.map((exercise) => {
+              exercise.training = exercise.training.reduce(arrayUtils.sumReducer);
+              if (acc[exercise.name]) {
+                acc[exercise.name] = Math.max(acc[exercise.name], exercise.training);
+              } else acc[exercise.name] = exercise.training;
+            });
 
-          return acc
-        }, {});
+            return acc
+          }, {});
 
-        sportData[0].exercises.map((exercise) => {
-          if (!maxs.hasOwnProperty(exercise.name)) {
-            maxs[exercise.name] = 0
-          } else {
-            if (exercise.type === "Temps") {
-              maxs[exercise.name] = moment.utc(moment.duration(maxs[exercise.name], "seconds").asMilliseconds()).format("HH:mm:ss");
+          sportData[0].exercises.map((exercise) => {
+            if (!maxs.hasOwnProperty(exercise.name)) {
+              maxs[exercise.name] = 0
+            } else {
+              if (exercise.type === "Temps") {
+                maxs[exercise.name] = moment.utc(moment.duration(maxs[exercise.name], "seconds").asMilliseconds()).format("HH:mm:ss");
+              }
             }
-          }
-        })
+          })
 
-        this.setState({
-          exercises: sportData[0].exercises,
-          topByExercise: maxs
-        })
+          this.setState({
+            exercises: sportData[0].exercises,
+            topByExercise: maxs
+          })
+        }
       }
     }
   };

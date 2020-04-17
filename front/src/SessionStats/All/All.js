@@ -44,36 +44,40 @@ class All extends React.Component {
       } else return current;
     }
 
+    let count;
     for (let i = 0; i < constants.AVAILABLE_SPORTS.length; i++) {
       const element = constants.AVAILABLE_SPORTS[i];
       const sportData = storageHandler.get(element);
-      if (!storageHandler.isError(sportData) 
+      if (!storageHandler.isError(sportData)
           && sportData[0].hasOwnProperty("sessions")) {
-        let count = sportData[0].sessions.reduce(countRepByEx, {});
+        // TODO --> Make running data readable
+        if (element !== "running") {
+          let count = sportData[0].sessions.reduce(countRepByEx, {});
 
-        sportData[0].exercises.map((exercise) => {
-          if (!count.hasOwnProperty(exercise.name)) {
-            count[exercise.name] = 0
-          } else {
-            if (exercise.type === "Temps") {
-              count[exercise.name] = moment.utc(moment.duration(count[exercise.name], "seconds").asMilliseconds()).format("HH:mm:ss");
+          sportData[0].exercises.map((exercise) => {
+            if (!count.hasOwnProperty(exercise.name)) {
+              count[exercise.name] = 0
+            } else {
+              if (exercise.type === "Temps") {
+                count[exercise.name] = moment.utc(moment.duration(count[exercise.name], "seconds").asMilliseconds()).format("HH:mm:ss");
+              }
             }
-          }
-          return "";
-        })
-
-        //TODO --> Check if below works when 2 sports are coded
-        if (this.state.repetitionsByExercise) {
-          count = {
-            ...count,
-            ...this.state.repetitionsByExercise
-          }
+            return "";
+          })
         }
-        this.setState({
-          [element]: sportData[0],
-          repetitionsByExercise: count
-        })
       }
+
+      //TODO --> Check if below works when 2 sports are coded
+      if (count && this.state.repetitionsByExercise) {
+        count = {
+          ...count,
+          ...this.state.repetitionsByExercise
+        }
+      }
+      this.setState({
+        [element]: sportData[0],
+        repetitionsByExercise: count
+      })
     }
     
     document.addEventListener('storageSet', this.handleNewSession, false);

@@ -28,7 +28,10 @@ class AddSessionRunningDisplayer extends React.Component {
       // table form handlers
       exerciseNames,
       handleChooseExercice,
-      handleKmChange
+      handleKmChange,
+      handleTimeInput,
+      // Create session
+      addSessionRunning
     } = this.props;
 
     return (
@@ -49,11 +52,17 @@ class AddSessionRunningDisplayer extends React.Component {
                       value={exerciseNbr}
                       onChange={handleChangeNumberInput}/>
               </label>
-              <SessionFillerRunningDisplayer exercisesSession={exercisesSession}
-                                             exerciseNames={exerciseNames}
-                                             handleChooseExercice={handleChooseExercice}
-                                             handleKmChange={handleKmChange}/>
+              <div className="table-wrapper">
+                <div className="table-scroll">
+                  <SessionFillerRunningDisplayer exercisesSession={exercisesSession}
+                                                exerciseNames={exerciseNames}
+                                                handleChooseExercice={handleChooseExercice}
+                                                handleKmChange={handleKmChange}
+                                                handleTimeInput={handleTimeInput}/>
+                </div>
+              </div>
           </fieldset>
+          <button className="emphasize" onClick={addSessionRunning}>Créer la séance</button>
         </div>
       </>
     )

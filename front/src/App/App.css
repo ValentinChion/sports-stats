@@ -47,3 +47,34 @@
 .number {
     padding: 0
 }
+
+table {
+    display: block;
+}
+
+.table-scroll {
+    width: 1000px;
+    overflow-x: auto;
+}
+
+@media screen and (max-width:1200px) {
+    .table-scroll {
+        width: 800px;
+    }
+}
+
+@media screen and (max-width:1000px) {
+    .table-scroll {
+        width: 900px;
+    }
+}
+
+@media screen and (max-width:800px) {
+    .table-scroll {
+        width: 600px;
+    }
+}
+
+input[type="number"] {
+    min-width: 100px;
+}

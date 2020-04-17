@@ -14,7 +14,7 @@ class NumbersInJSONDisplayer extends React.Component {
     return (
       <>
         {title && <h3>{title}</h3>}
-        <div className="flex two three-600 four-800 six-1200 center">
+        <div className="flex two three-600 four-800 five-1200 center">
           {numbers && Object.entries(numbers).map(number => 
             <StatNumber title={number[0]}
                         key={number[0]}
