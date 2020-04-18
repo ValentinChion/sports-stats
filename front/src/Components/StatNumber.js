@@ -1,24 +1,26 @@
-import React from 'react';
+import React from "react";
 
 class StatNumber extends React.Component {
-  state = {
-    
-  }
+  state = {};
 
   render() {
-    let {
-      title,
-      number
-    } = this.props;
+    let { title, number, colorClassName, unit } = this.props;
 
+    if (unit) number += " " + unit
     return (
       <div>
         <article className="card">
-          <header><h3>{title}</h3></header>
-          <footer className="emphasize"><h1 className="number center">{number}</h1></footer>
+          <header className="has-no-breakspace">
+            <h3>{title}</h3>
+          </header>
+          <footer className={colorClassName}>
+            <h1 className="number center">
+              {number}
+            </h1>
+          </footer>
         </article>
       </div>
-    )
+    );
   }
 }
 

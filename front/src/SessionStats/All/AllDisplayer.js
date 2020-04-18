@@ -1,5 +1,4 @@
 import React from 'react';
-import StatNumber from '../../Components/StatNumber';
 import NumbersInJSONDisplayer from '../../Components/NumbersInJSONDisplayer';
 
 class AllDisplayer extends React.Component {
@@ -9,14 +8,24 @@ class AllDisplayer extends React.Component {
 
   render() {
     const {
-      repetitionsByExercise,
-      weightTraining
+      weightCount,
+      weightTraining,
+      runningCount,
     } = this.props;
 
     return (
       <>
         <NumbersInJSONDisplayer title="RÉPÉTITIONS EFFECTUÉES"
-                                numbers={repetitionsByExercise}/>
+                                colorClassName="emphasize"
+                                numbers={weightCount}/>
+        {runningCount && <NumbersInJSONDisplayer title="DISTANCE PARCOURUE"
+                                                 colorClassName="emphasize"
+                                                 numbers={runningCount.tots}/>}
+        {runningCount && <NumbersInJSONDisplayer title="DISTANCE PARCOURUE PAR EXERCICE"
+                                                 colorClassName="emphasize"
+                                                 unit="km"
+                                                 numbers={runningCount.totsByEx}/>}
+        
       </>
     )
   }

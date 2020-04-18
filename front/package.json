@@ -23,7 +23,13 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "function-call-argument-newline": "off"
+    }
+  },
+  "prettier": {
+    "printWidth": 180
   },
   "browserslist": {
     "production": [

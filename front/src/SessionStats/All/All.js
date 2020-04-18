@@ -3,72 +3,38 @@ import AllDisplayer from './AllDisplayer';
 import constants from '../../utils/constants/global';
 import storageHandler from '../../utils/localStorage/storage';
 import moment from 'moment';
+import weightTrainingUtils from '../../utils/weightTrainingUtils';
+import runningUtils from '../../utils/runningUtils';
 
 class All extends React.Component {
   state = {
-    repetitionsByExercise: undefined,
-    weightTraining: undefined
+    weightCount: undefined,
+    weightTraining: undefined,
+    runningCount: undefined,
   }
 
   componentDidMount() {
-    const countRepByEx = (accumulator, current) => {
-      current = current.exercises.reduce((accTraining, curTraining) => {
-        const repCount = curTraining.training.reduce((accRep, curRep) => (+curRep) + (+accRep));
-        if (accTraining.hasOwnProperty(curTraining.name)) {
-          accTraining[curTraining.name] += repCount
-          return accTraining
-        } else {
-          return {
-            ...accTraining,
-            [curTraining.name] : repCount
-          }
-        }
-      }, {})
-
-      if (Object.keys(accumulator).length !== 0) {
-        for (const exName in current) {
-          if (current.hasOwnProperty(exName)) {
-            const el = current[exName];
-            if (accumulator.hasOwnProperty(exName)) {
-              accumulator[exName] += el
-            } else {
-              accumulator = {
-                ...accumulator,
-                [exName]: el
-              }
-            }
-            
-          }
-        }
-        return accumulator;
-      } else return current;
-    }
-
     let count;
+    let name;
     for (let i = 0; i < constants.AVAILABLE_SPORTS.length; i++) {
       const element = constants.AVAILABLE_SPORTS[i];
       const sportData = storageHandler.get(element);
       if (!storageHandler.isError(sportData)
           && sportData[0].hasOwnProperty("sessions")) {
-        // TODO --> Make running data readable
         if (element !== "running") {
-          let count = sportData[0].sessions.reduce(countRepByEx, {});
-
-          sportData[0].exercises.map((exercise) => {
-            if (!count.hasOwnProperty(exercise.name)) {
-              count[exercise.name] = 0
-            } else {
-              if (exercise.type === "Temps") {
-                count[exercise.name] = moment.utc(moment.duration(count[exercise.name], "seconds").asMilliseconds()).format("HH:mm:ss");
-              }
-            }
-            return "";
-          })
+          name = "weightCount";
+          count = weightTrainingUtils.count(sportData[0]);
+        } else {
+          name = "runningCount";
+          count = {
+            tots: runningUtils.countKmsAndTime(sportData[0]),
+            // TODO --> Code Times
+            totsByEx: runningUtils.countKmsAndTimeByEx(sportData[0])
+          }
         }
       }
 
-      //TODO --> Check if below works when 2 sports are coded
-      if (count && this.state.repetitionsByExercise) {
+      if (count && name && this.state.repetitionsByExercise) {
         count = {
           ...count,
           ...this.state.repetitionsByExercise
@@ -76,7 +42,7 @@ class All extends React.Component {
       }
       this.setState({
         [element]: sportData[0],
-        repetitionsByExercise: count
+        [name]: count
       })
     }
     
@@ -90,12 +56,12 @@ class All extends React.Component {
   }
 
 
-
   render() {
     return (
       <>
-        <AllDisplayer repetitionsByExercise={this.state.repetitionsByExercise}
-                      weightTraining={this.state.weightTraining}/>
+        <AllDisplayer weightCount={this.state.weightCount}
+                      weightTraining={this.state.weightTraining}
+                      runningCount={this.state.runningCount}/>
       </>
     )
   }

@@ -78,3 +78,7 @@ table {
 input[type="number"] {
     min-width: 100px;
 }
+
+.has-no-breakspace {
+    white-space: nowrap;
+}
