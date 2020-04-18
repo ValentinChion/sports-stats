@@ -1,7 +1,7 @@
 /**
  * Utils to manipulate Weight Training data
  */
-import moment from 'moment';
+import globalUtils from './globalUtils';
 
 const weightTrainingUtils = {
     count: (weightTrainingData) => {
@@ -45,7 +45,7 @@ const weightTrainingUtils = {
                 count[exercise.name] = 0;
             } else {
                 if (exercise.type === "Temps") {
-                    count[exercise.name] = moment.utc(moment.duration(count[exercise.name], "seconds").asMilliseconds()).format("HH:mm:ss");
+                    count[exercise.name] = globalUtils.formatDuration(count[exercise.name]);
                 }
             }
             return "";

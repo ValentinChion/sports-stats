@@ -1,4 +1,5 @@
 import moment from 'moment';
+import globalUtils from './globalUtils';
 
 /**
  * Utils to manipulate Running data
@@ -18,13 +19,13 @@ const runningUtils = {
         Kilomètres: runningData.sessions.reduce((accSes, session) => {
             return accSes + session.exercises.reduce((accEx, exercise) => accEx + +exercise.kms, 0);
         }, 0),
-        Temps: moment.utc(moment.duration(runningData.sessions.reduce((accSes, session) => {
+        Temps: globalUtils.formatDuration(runningData.sessions.reduce((accSes, session) => {
             return (
             accSes +
             session.exercises.reduce((accEx, exercise) => {
                 return accEx + runningUtils.sumReducerTimes(exercise.kmsTimes, exercise.kms)}, 0)
             );
-        }, 0), "seconds").asMilliseconds()).format("HH:mm:ss"),
+        }, 0))
         };
     },
 

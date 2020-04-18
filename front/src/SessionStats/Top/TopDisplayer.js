@@ -7,11 +7,12 @@ class TopDisplayer extends React.Component {
   }
 
   render() {
-    const { topByExercise } = this.props;
+    const { weightTrainingMaxs } = this.props;
     return (
       <>
         <NumbersInJSONDisplayer title="MEILLEUR RÉPÉTITIONS EN UNE SÉANCE"
-                                numbers={topByExercise} />
+                                numbers={weightTrainingMaxs} 
+                                colorClassName="emphasize"/>
       </>
     )
   }
