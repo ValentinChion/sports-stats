@@ -11,6 +11,7 @@ class Top extends React.Component {
   state = {
     exercises: undefined,
     topByExercise: undefined,
+    runningMaxs: undefined,
   };
 
   componentDidMount() {
@@ -34,7 +35,6 @@ class Top extends React.Component {
           }, {});
         } else {
           name = "runningMaxs";
-          console.log(sportData[0]);
           maxs = sportData[0].sessions.reduce((accSes, session) => {
             if (!accSes.distances) accSes.distances = {};
             if (!accSes.byTime) accSes.byTime = {};
@@ -49,24 +49,22 @@ class Top extends React.Component {
 
                 if (accSes.byTime.hasOwnProperty(exercise.name)) {
                   let currTime = runningUtils.sumReducerTimes(exercise.kmsTimes, exercise.kms);
-                  if (exercise.kms / currTime > accSes.byTime[exercise.name].kms / accSes.byTime[exercise.name].time) {
+                  if (exercise.kms / currTime > accSes.byTime[exercise.name]["Distance Parcourue"] / accSes.byTime[exercise.name]["Temps Écoulé"]) {
                     accSes.byTime[exercise.name] = {
-                      kms: exercise.kms,
-                      time: currTime
-                    }
+                      "Distance Parcourue": exercise.kms,
+                      "Temps Écoulé": currTime,
+                    };
                   }
                 } else {
                   accSes.byTime[exercise.name] = {
-                    kms: exercise.kms,
-                    time: runningUtils.sumReducerTimes(exercise.kmsTimes, exercise.kms),
+                    "Distance Parcourue": exercise.kms,
+                    "Temps Écoulé": runningUtils.sumReducerTimes(exercise.kmsTimes, exercise.kms),
                   };
                 }
               }
             });
             return accSes;
           }, {});
-
-          console.log(maxs);
         }
 
         if (maxs && name) {
@@ -76,15 +74,16 @@ class Top extends React.Component {
                 maxs[exercise.name] = 0;
               } else {
                 if (exercise.type === "Temps") {
-                  maxs[exercise.name] = globalUtils.formatDuration(maxs[exercise.name])
+                  maxs[exercise.name] = globalUtils.formatDuration(maxs[exercise.name]);
                 }
               }
             });
           } else {
+            // Reformat data for display
             const byTimeKeys = Object.keys(maxs.byTime);
             byTimeKeys.map((byTimeKey) => {
-              maxs.byTime[byTimeKey].time = globalUtils.formatDuration(maxs.byTime[byTimeKey].time)
-            }) 
+              maxs.byTime[byTimeKey]["Temps Écoulé"] = globalUtils.formatDuration(maxs.byTime[byTimeKey]["Temps Écoulé"]);
+            });
           }
 
           this.setState({
@@ -99,7 +98,7 @@ class Top extends React.Component {
   render() {
     return (
       <>
-        <TopDisplayer weightTrainingMaxs={this.state.weightTrainingMaxs} />
+        <TopDisplayer weightTrainingMaxs={this.state.weightTrainingMaxs} runningMaxs={this.state.runningMaxs} />
       </>
     );
   }
