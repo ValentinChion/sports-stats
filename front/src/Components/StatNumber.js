@@ -6,6 +6,12 @@ class StatNumber extends React.Component {
   render() {
     let { title, number, colorClassName, unit } = this.props;
 
+    if (!("" + number).includes(":")) {
+      number = Number.parseFloat(number);
+      if (number % 1 === 0) number = number.toFixed(0);
+      else number = number.toFixed(2); 
+    }
+
     if (unit) number += " " + unit
     return (
       <div>
