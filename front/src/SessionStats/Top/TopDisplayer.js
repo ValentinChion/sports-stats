@@ -6,7 +6,6 @@ class TopDisplayer extends React.Component {
 
   render() {
     const { weightTrainingMaxs, runningMaxs } = this.props;
-    console.log(runningMaxs)
     return (
       <>
         <NumbersInJSONDisplayer title="MEILLEUR RÉPÉTITIONS EN UNE SÉANCE" numbers={weightTrainingMaxs} colorClassName="emphasize" />

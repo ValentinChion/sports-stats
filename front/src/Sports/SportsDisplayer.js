@@ -2,6 +2,7 @@ import React from 'react';
 import Running from './Running/Running';
 import WeightTraining from './WeightTraining/WeightTraining';
 import BasketBall from './BasketBall/BasketBall';
+import ListSession from '../Data/ManageSports/Sessions/ListSessions/ListSession';
 
 class SportsDisplayer extends React.Component {
   state = {
@@ -11,7 +12,9 @@ class SportsDisplayer extends React.Component {
   render() {
     return (
       <>
-      <h3>GERER LES SEANCES</h3>
+      <h3>TOUTES MES SÉANCES</h3>
+      <ListSession />
+      <h3>GÉRER LES SÉANCES</h3>
       <section className="flex grow">
         <div className="tabs three">
           <input id='tab-1' type='radio' name='tabgroupB' defaultChecked />
