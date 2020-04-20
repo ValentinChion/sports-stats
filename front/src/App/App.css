@@ -87,3 +87,7 @@ input[type="number"] {
     margin: 0 !important;
     font-size: 0.8em;
 }
+
+.container-tree-map {
+    height: 500px;
+}

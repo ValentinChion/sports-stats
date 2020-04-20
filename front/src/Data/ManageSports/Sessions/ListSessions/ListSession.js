@@ -17,7 +17,7 @@ class ListSession extends React.Component {
 
   render() {
     return (
-      <>
+      <><p>Wesh</p>
         <ListSessionDisplayer/>
       </>
     )
