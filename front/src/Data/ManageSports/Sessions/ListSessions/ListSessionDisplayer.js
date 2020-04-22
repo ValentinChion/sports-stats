@@ -6,7 +6,7 @@ class ListSessionDisplayer extends React.Component {
 
   render() {
     const createTreeMap = componentUtils.createTreeMap;
-    const root = {
+    /* const root = {
       "root": {
         "name": "sport",
         "children": [
@@ -15,14 +15,14 @@ class ListSessionDisplayer extends React.Component {
           { "name": "testtrois", "loc": 789 },
         ],
       },
-    };
+    }; */
+    const { root } = this.props;
+    console.log(root)
 
     return (
       <>
         <p>Tree map test</p>
-        <div className="container-tree-map">
-        {createTreeMap(root)}
-        </div>
+        {root && <div className="container-tree-map">{createTreeMap(root)}</div>}
       </>
     );
   }

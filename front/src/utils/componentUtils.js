@@ -5,16 +5,16 @@ import React from "react";
 import { ResponsiveTreeMapHtml } from "@nivo/treemap";
 
 const componentUtils = {
-  createTreeMap: ({ root }, customTooltip) => (
+  createTreeMap: ({ root }, customTooltip, customName) => (
     <ResponsiveTreeMapHtml
       root={root}
       identity="name"
       value="loc"
-      tile="slice"
+      tile="sliceDice"
       innerPadding={3}
       outerPadding={3}
       margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-      label={function (e) {
+      label={customName ? customName : function (e) {
         return e.name + "\n\n" + e.date;
       }}
       labelSkipSize={12}
