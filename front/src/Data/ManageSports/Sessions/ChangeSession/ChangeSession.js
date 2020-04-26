@@ -7,9 +7,10 @@ class ChangeSession extends React.Component {
   }
 
   render() {
+    const {session} = this.props;
     return (
       <>
-        <ChangeSessionDisplayer/>
+        <ChangeSessionDisplayer session={session}/>
       </>
     )
   }

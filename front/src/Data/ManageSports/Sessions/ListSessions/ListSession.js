@@ -8,6 +8,7 @@ import runningUtils from "../../../../utils/runningUtils";
 class ListSession extends React.Component {
   state = {
     sports: undefined,
+    currSession: undefined,
   };
 
   componentDidMount() {
@@ -73,7 +74,7 @@ class ListSession extends React.Component {
               date: moment(session.date).format("DD MMMM YYYY"),
               loc: 80,
               currSport: key,
-              session: session.exercises,
+              session: session,
             });
           else {
             nodeSport.children.push({
@@ -90,14 +91,12 @@ class ListSession extends React.Component {
                 date: moment(session.date).format("DD MMMM YYYY"),
                 loc: 80,
                 currSport: key,
-                session: session.exercises,
+                session: session,
               },
             ];
           }
 
-          console.log(idx, sessionsByDate.length)
-
-          if (idx + 1 === sessionsByDate.length){
+          if (idx + 1 === sessionsByDate.length) {
             nodeSport.children.push({
               name: "Semaine du " + startOfWeek.format("DD MMMM"),
               children: childrens,
@@ -122,36 +121,49 @@ class ListSession extends React.Component {
   }
 
   customToolTipTree = (e) => {
-
-    // TODO --> Add tooltip fort weighTraining
     const data = e.data;
     if (data.hasOwnProperty("session") && data.hasOwnProperty("currSport")) {
-      if (data.currSport === "running") {
-        let tooltipContent = (
-          <span className="tooltip-tree-map">
-            km : temps <br />{" "}
-            {data.session[0].kmsTimes.map((time, currKm, kmsTimes) => (
+      let tooltipContent = (
+        <span className="tooltip-tree-map">
+          {data.currSport === "running" ? (
+            <>
+              km : temps
+              <br />
+            </>
+          ) : (
+            ""
+          )}{" "}
+          {data.currSport === "running" &&
+            data.session.exercises[0].kmsTimes.map((time, currKm, kmsTimes) => (
               <>
-                {++currKm === kmsTimes.length ? parseFloat((data.session[0].kms % 1).toFixed(2)) : currKm} : {globalUtils.formatDuration(+time)}
+                {++currKm === kmsTimes.length ? parseFloat((data.session.exercises[0].kms % 1).toFixed(2)) : currKm} : {globalUtils.formatDuration(+time)}
                 <br />
               </>
             ))}
-          </span>
-        );
-        return tooltipContent;
-      } else {
-      }
+          {data.currSport === "weightTraining" &&
+            data.session.exercises.map((exercice) => (
+              <>
+                {exercice.name}
+                <br />
+              </>
+            ))}
+        </span>
+      );
+      return tooltipContent;
     }
-    console.log(e);
+    return undefined;
   };
 
-  // Onclick on session to add a modal to change it :)
+  onClickTree = (e) => {
+    this.setState({
+      currSession: e.data.session
+    });
+  };
 
   render() {
     return (
       <>
-        <p>Wesh</p>
-        <ListSessionDisplayer root={this.state.root} customToolTipTree={this.customToolTipTree} />
+        <ListSessionDisplayer root={this.state.root} customToolTipTree={this.customToolTipTree} onClickTree={this.onClickTree} currSession={this.state.currSession}/>
       </>
     );
   }

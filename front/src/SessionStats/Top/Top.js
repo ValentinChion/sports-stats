@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 import React from "react";
 import TopDisplayer from "./TopDisplayer";
 import constants from "../../utils/constants/global";

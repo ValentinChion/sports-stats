@@ -3,9 +3,10 @@
  */
 import React from "react";
 import { ResponsiveTreeMapHtml } from "@nivo/treemap";
+import moment from "moment";
 
 const componentUtils = {
-  createTreeMap: ({ root }, customTooltip, customName) => (
+  createTreeMap: ({ root }, customTooltip, onClick, customName) => (
     <ResponsiveTreeMapHtml
       root={root}
       identity="name"
@@ -15,7 +16,7 @@ const componentUtils = {
       outerPadding={3}
       margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
       label={customName ? customName : function (e) {
-        return <>{e.date} <br /> <strong>{e.toDisplay}</strong></>;
+        return <label htmlFor={e.session ? "modal_" + moment(e.session.date).format("DD_MM_YYYY_HH:mm:SS") : ""}>{e.date} <br /> <strong>{e.toDisplay}</strong></label>;
       }}
       orientLabel={false}
       labelSkipSize={12}
@@ -27,6 +28,7 @@ const componentUtils = {
       motionStiffness={90}
       motionDamping={11}
       tooltip={customTooltip}
+      onClick={onClick}
     />
   ),
 };
