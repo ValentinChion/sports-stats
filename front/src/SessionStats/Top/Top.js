@@ -54,6 +54,7 @@ class Top extends React.Component {
                     accSes.byTime[exercise.name] = {
                       "Distance Parcourue": exercise.kms,
                       "Temps Écoulé": currTime,
+                      "Allure Moyenne": currTime/exercise.kms,
                     };
                   }
                 } else {
@@ -84,6 +85,7 @@ class Top extends React.Component {
             const byTimeKeys = Object.keys(maxs.byTime);
             byTimeKeys.map((byTimeKey) => {
               maxs.byTime[byTimeKey]["Temps Écoulé"] = globalUtils.formatDuration(maxs.byTime[byTimeKey]["Temps Écoulé"]);
+              maxs.byTime[byTimeKey]["Allure Moyenne"] = globalUtils.formatDuration(maxs.byTime[byTimeKey]["Allure Moyenne"]);
             });
           }
 
