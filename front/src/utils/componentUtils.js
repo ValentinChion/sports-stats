@@ -10,20 +10,23 @@ const componentUtils = {
       root={root}
       identity="name"
       value="loc"
-      tile="sliceDice"
+      tile="binary"
       innerPadding={3}
       outerPadding={3}
       margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
       label={customName ? customName : function (e) {
-        return e.name + "\n\n" + e.date;
+        return <>{e.date} <br /> <strong>{e.toDisplay}</strong></>;
       }}
+      orientLabel={false}
       labelSkipSize={12}
-      labelTextColor={{ from: "color", modifiers: [["darker", 1.2]] }}
-      colors={{ scheme: "purple_red" }}
-      borderColor={{ from: "color", modifiers: [["darker", 0.3]] }}
+      labelTextColor="#FFF"
+      colors={["#FFF", "#B87DE0", "#7F5DEF", "#4240ED"]}
+      borderWidth={6}
+      borderColor={{ from: "color" }}
       animate={true}
       motionStiffness={90}
       motionDamping={11}
+      tooltip={customTooltip}
     />
   ),
 };

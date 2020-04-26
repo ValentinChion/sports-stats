@@ -89,5 +89,9 @@ input[type="number"] {
 }
 
 .container-tree-map {
-    height: 500px;
+    height: 1000px;
+}
+
+.tooltip-tree-map {
+    font-weight: 300;
 }

@@ -6,23 +6,12 @@ class ListSessionDisplayer extends React.Component {
 
   render() {
     const createTreeMap = componentUtils.createTreeMap;
-    /* const root = {
-      "root": {
-        "name": "sport",
-        "children": [
-          { "name": "test", "loc": 123 },
-          { "name": "testdeux", "loc": 456 },
-          { "name": "testtrois", "loc": 789 },
-        ],
-      },
-    }; */
-    const { root } = this.props;
-    console.log(root)
+    const { root, customToolTipTree } = this.props;
 
     return (
       <>
         <p>Tree map test</p>
-        {root && <div className="container-tree-map">{createTreeMap(root)}</div>}
+        {root && <div className="container-tree-map">{createTreeMap(root, customToolTipTree)}</div>}
       </>
     );
   }
