@@ -10,6 +10,8 @@ const globalUtils = {
     return moment.utc(moment.duration(seconds, "seconds").asMilliseconds()).format("HH:mm:ss");
   },
 
+  sortByDate: (objectsWithDates) => objectsWithDates.sort((b, a) => moment(a.date).diff(b.date)),
+
   getAllExercices: () => {
     return constants.AVAILABLE_SPORTS.reduce((acc, sport) => {
       const sportData = storageHandler.get(sport);

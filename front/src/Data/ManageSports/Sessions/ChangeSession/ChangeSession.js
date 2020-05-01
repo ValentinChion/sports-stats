@@ -8,6 +8,7 @@ class ChangeSession extends React.Component {
 
   render() {
     const {session} = this.props;
+    console.log(session);
     return (
       <>
         <ChangeSessionDisplayer session={session}/>

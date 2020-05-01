@@ -37,7 +37,7 @@ class ListSession extends React.Component {
       };
 
       if (value.sessions) {
-        const sessionsByDate = value.sessions.sort((b, a) => moment(a.date).diff(b.date));
+        const sessionsByDate = globalUtils.sortByDate(value.sessions);
         let startOfWeek;
         let endOfWeek;
         let childrens = [];

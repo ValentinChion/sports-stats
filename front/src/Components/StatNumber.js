@@ -17,7 +17,7 @@ class StatNumber extends React.Component {
       <div>
         <article className="card">
           <header className="has-no-breakspace">
-            <h3>{title}</h3>
+            {title.length >= 19 ? <h5>{title}</h5> : title.length >= 16 ? <h4>{title}</h4> : <h3>{title}</h3>}
           </header>
           <footer className={colorClassName}>
             <h1 className="number center">
