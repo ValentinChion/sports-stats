@@ -190,6 +190,8 @@ class Durations extends React.Component {
             });
             sportSessionsByMonths[idx].total.time = globalUtils.formatDuration(sportSessionsByMonths[idx].total.time);
             sportSessionsByMonths[idx].total.allure = globalUtils.formatDuration(sportSessionsByMonths[idx].total.allure[0] / sportSessionsByMonths[idx].total.allure[1]);
+
+            return true;
           });
 
           sportSessionsByWeeks.map((_, idx) => {
@@ -200,6 +202,8 @@ class Durations extends React.Component {
             });
             sportSessionsByWeeks[idx].total.time = globalUtils.formatDuration(sportSessionsByWeeks[idx].total.time);
             sportSessionsByWeeks[idx].total.allure = globalUtils.formatDuration(sportSessionsByWeeks[idx].total.allure[0] / sportSessionsByWeeks[idx].total.allure[1]);
+            
+            return true;
           });
         }
 
@@ -293,9 +297,7 @@ class Durations extends React.Component {
   render() {
     return (
       <>
-        <DurationsDisplayer months={this.state.months} 
-                            weeks={this.state.weeks} 
-                            minToShow={this.state.minToShow}/>
+        <DurationsDisplayer months={this.state.months} weeks={this.state.weeks} minToShow={this.state.minToShow} />
       </>
     );
   }
