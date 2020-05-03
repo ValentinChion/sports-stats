@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { Fragment } from "react";
+import constants from "../../../utils/constants/global";
+import ListByDate from '../../../Components/ListByDate';
 
 class MonthDisplayer extends React.Component {
-  state = {
-    
-  }
+  state = {};
 
   render() {
+    let { months, minToShow } = this.props;
+
     return (
       <>
-        <p>Hello World</p>
+        <ListByDate isMonth={true}
+                    minToShow={minToShow}
+                    dataByDuration={months}/>
       </>
-    )
+    );
   }
 }
 

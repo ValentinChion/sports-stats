@@ -10,6 +10,10 @@ const globalUtils = {
     return moment.utc(moment.duration(seconds, "seconds").asMilliseconds()).format("HH:mm:ss");
   },
 
+  stringDurationAsSeconds: (duration) => {
+    return moment.duration(duration).asSeconds();
+  },
+
   sortByDate: (objectsWithDates) => objectsWithDates.sort((b, a) => moment(a.date).diff(b.date)),
 
   getAllExercices: () => {

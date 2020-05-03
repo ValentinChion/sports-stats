@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
+import ListByDate from "../../../Components/ListByDate";
 
 class WeekDisplayer extends React.Component {
-  state = {
-    
-  }
+  state = {};
 
   render() {
+    const { weeks, minToShow } = this.props;
     return (
       <>
-        <p>Hello World</p>
+        <ListByDate dataByDuration={weeks} isMonth={false} minToShow={minToShow} />
       </>
-    )
+    );
   }
 }
 

@@ -1,11 +1,12 @@
 import React from "react";
-import MonthDisplayer from './Month/MonthDisplayer';
-import WeekDisplayer from './Week/WeekDisplayer';
+import MonthDisplayer from "./Month/MonthDisplayer";
+import WeekDisplayer from "./Week/WeekDisplayer";
 
 class DurationsDisplayer extends React.Component {
   state = {};
 
   render() {
+    const { months, weeks, minToShow } = this.props;
     return (
       <>
         <h3>STATISTIQUES DÉTAILLÉES</h3>
@@ -24,8 +25,10 @@ class DurationsDisplayer extends React.Component {
               Année
             </label>
             <div className="row">
-              <div className="tab-container"><MonthDisplayer /></div>
-              <div className="tab-container"><WeekDisplayer /></div>
+              <div className="tab-container">{months && <MonthDisplayer months={months} minToShow={minToShow} />}</div>
+              <div className="tab-container">
+                {weeks && <WeekDisplayer weeks={weeks} minToShow={minToShow} />}
+              </div>
               <div className="tab-container">L'application n'a pas encore un an !</div>
             </div>
           </div>

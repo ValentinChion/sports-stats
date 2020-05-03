@@ -95,3 +95,40 @@ input[type="number"] {
 .tooltip-tree-map {
     font-weight: 300;
 }
+
+.with-padding-bottom{
+    padding-bottom: 10px !important;
+}
+
+.grid-text-with-title-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    column-gap: 20px;
+}
+
+.grid-title{
+    font-weight: 700;
+    font-size: 13px;
+    padding-left: 20px;
+    color: #4240ED;
+}
+
+
+.grid-text{
+    font-size: 16px;
+    font-weight: 300;
+    padding-left: 28px;
+    position: relative;
+    color: #7F5DEF;
+    top: -6px;
+}
+
+.grid-text-with-title-container > div > .grid-text {
+    position: static;
+    margin-bottom: 0.9em;
+}
+
+.has-sm-text {
+    font-size: 12px;
+}
