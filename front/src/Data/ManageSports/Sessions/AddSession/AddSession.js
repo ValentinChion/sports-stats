@@ -13,6 +13,7 @@ class AddSession extends React.Component {
     exerciseNbr: 0,
     circuitNbr: 0,
     exerciseValues: [],
+    duration: 0,
   }
 
   componentDidMount() {
@@ -99,6 +100,8 @@ class AddSession extends React.Component {
     })
   }
 
+  handleDuration = (e) => this.setState({duration: e.target.value}) 
+
   handleAddSession = () => {
     const {
       exerciseChoosed,
@@ -107,10 +110,11 @@ class AddSession extends React.Component {
 
     let session = {
       date: this.state.sessionDate,
+      duration: this.state.duration,
       exercises:  exerciseChoosed.map((exerciseName, idxEx) => {
                     return {
                       name: exerciseName,
-                      training: exerciseValues[idxEx]
+                      training: exerciseValues[idxEx],
                     }
                   })
     }
@@ -133,6 +137,7 @@ class AddSession extends React.Component {
   handleDateChanged = (date) => {
     this.setState({sessionDate: date});
   }
+  
   handleDateFocus = (focused) => {this.setState({focused: focused.focused});}
 
   render() {
@@ -153,7 +158,10 @@ class AddSession extends React.Component {
                              sessionDate={this.state.sessionDate}
                              handleDateChanged={this.handleDateChanged}
                              focused={this.state.focused}
-                             handleDateFocus={this.handleDateFocus}/>
+                             handleDateFocus={this.handleDateFocus}
+                             // Handle duration
+                             duration={this.state.duration}
+                             handleDuration={this.handleDuration}/>
       </>
     )
   }

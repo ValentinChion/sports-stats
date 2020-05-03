@@ -11,6 +11,7 @@ class StatTripleNumber extends React.Component {
     if (units && units.length > 0)
       units.map((unit, idx) => {
         if (unit) numbers[idx] = numbers[idx] + " " + unit;
+        return true;
       });
 
     return (

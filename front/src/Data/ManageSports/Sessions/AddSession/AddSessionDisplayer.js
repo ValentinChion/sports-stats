@@ -24,7 +24,10 @@ class AddSessionDisplayer extends React.Component {
       handleRepetChange,
       handleAddSession,
       focused,
-      handleDateFocus
+      handleDateFocus,
+      // Handle duration
+      duration,
+      handleDuration
     } = this.props;
 
     const exerciseNames = exercises && exercises.map(exercise => exercise.name);
@@ -54,11 +57,17 @@ class AddSessionDisplayer extends React.Component {
                      value={circuitNbr}
                      onChange={handleChangeNumberInput}/>
             </label>
+            <h4>Temps passé <span class="label warning">secondes</span></h4>
+            <label className="half fourth-1000">
+              <input type="number" 
+                     name="duration" 
+                     value={duration}
+                     onChange={handleDuration}/>
+            </label>
             {exerciseNbr > 0 && <SessionFillerDisplayer circuitNbr={circuitNbr}
                                                         exerciseValues={exerciseValues}
                                                         exerciseChoosed={exerciseChoosed}
                                                         handleRepetChange={handleRepetChange}
-                                                        exerciseChoosed={exerciseChoosed}
                                                         exerciseNames={exerciseNames}
                                                         handleChooseExercise={handleChooseExercise}/>}
             {exerciseNbr > 0 && <button onClick={handleAddSession} className="emphasize">Ajouter ma séance</button>}

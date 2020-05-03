@@ -33,6 +33,8 @@ class Durations extends React.Component {
         let idxWeek = -1;
 
         sportSessions.map((session) => {
+          let firstExerciseLoopMonth = false;
+          let firstExerciseLoopWeek = false;
           session.exercises.map((exercise, idxExercise) => {
             // First we add the stats by month
             let totalTime;
@@ -45,6 +47,9 @@ class Durations extends React.Component {
                   sportSessionsByMonths[idxMonth].total.allure[0] += totalTime;
                   sportSessionsByMonths[idxMonth].total.allure[1] += +exercise.kms;
                 }
+              } else if (!firstExerciseLoopMonth) {
+                sportSessionsByMonths[idxMonth].duration += +session.duration;
+                firstExerciseLoopMonth = true;
               }
 
               const idxEx = sportSessionsByMonths[idxMonth].exercises.findIndex((ex) => ex.name === exercise.name);
@@ -64,11 +69,12 @@ class Durations extends React.Component {
                     time: totalTime,
                     allure: [totalTime / +exercise.kms],
                   });
-                else
+                else {
                   sportSessionsByMonths[idxMonth].exercises.push({
                     name: exercise.name,
                     repets: exercise.training.reduce(arrayUtils.sumReducer),
                   });
+                }
               }
             } else {
               if (currMonth) idxMonth++;
@@ -96,6 +102,7 @@ class Durations extends React.Component {
               } else {
                 sportSessionsByMonths.push({
                   month: currMonth,
+                  duration: +session.duration,
                   exercises: [
                     {
                       name: exercise.name,
@@ -103,6 +110,7 @@ class Durations extends React.Component {
                     },
                   ],
                 });
+                firstExerciseLoopMonth = true;
               }
             }
 
@@ -112,7 +120,13 @@ class Durations extends React.Component {
                 sportSessionsByWeeks[idxWeek].total.kms += +exercise.kms;
                 sportSessionsByWeeks[idxWeek].total.time += totalTime;
                 sportSessionsByWeeks[idxWeek].total.allure.push(totalTime / +exercise.kms);
+              } else if (!firstExerciseLoopWeek) {
+                console.log(session.duration, sportSessionsByWeeks[idxWeek].duration);
+                sportSessionsByWeeks[idxWeek].duration += (+session.duration);
+                console.log(sportSessionsByWeeks[idxWeek].duration);
+                firstExerciseLoopWeek = true;
               }
+
               if (idxEx >= 0) {
                 if (element === "running") {
                   sportSessionsByWeeks[idxWeek].exercises[idxEx].allure.push(totalTime / +exercise.kms);
@@ -129,11 +143,12 @@ class Durations extends React.Component {
                     time: totalTime,
                     allure: [totalTime / +exercise.kms],
                   });
-                else
+                else {
                   sportSessionsByWeeks[idxWeek].exercises.push({
                     name: exercise.name,
                     repets: exercise.training.reduce(arrayUtils.sumReducer),
                   });
+                }
               }
             } else {
               startWeek = moment(session.date).startOf("week");
@@ -170,6 +185,8 @@ class Durations extends React.Component {
                     },
                   ],
                 });
+                firstExerciseLoopWeek = true;
+                sportSessionsByWeeks[idxWeek].duration = +session.duration;
               }
             }
 
@@ -202,8 +219,18 @@ class Durations extends React.Component {
             });
             sportSessionsByWeeks[idx].total.time = globalUtils.formatDuration(sportSessionsByWeeks[idx].total.time);
             sportSessionsByWeeks[idx].total.allure = globalUtils.formatDuration(sportSessionsByWeeks[idx].total.allure[0] / sportSessionsByWeeks[idx].total.allure[1]);
-            
+
             return true;
+          });
+        } else {
+          sportSessionsByMonths = sportSessionsByMonths.map((month) => {
+            month.duration = globalUtils.formatDuration(month.duration);
+            return month;
+          });
+
+          sportSessionsByWeeks = sportSessionsByWeeks.map((week) => {
+            week.duration = globalUtils.formatDuration(week.duration);
+            return week;
           });
         }
 
@@ -232,6 +259,12 @@ class Durations extends React.Component {
                   name: "Total",
                   ...monthData.total,
                 });
+              if (monthData.hasOwnProperty("duration")) {
+                addData.push({
+                  name: "Temps passé",
+                  repets: monthData.duration,
+                });
+              }
               allDataByMonths[idxMonth][sportData.sport] = addData;
             }
             return true;
@@ -246,6 +279,12 @@ class Durations extends React.Component {
               name: "Total",
               ...month.total,
             });
+          if (month.hasOwnProperty("duration")) {
+            addData.push({
+              name: "Temps passé",
+              repets: month.duration,
+            });
+          }
           return {
             month: month.month,
             [sportData.sport]: addData,
@@ -268,6 +307,12 @@ class Durations extends React.Component {
                   name: "Total",
                   ...weekData.total,
                 });
+              if (weekData.hasOwnProperty("duration")) {
+                addData.push({
+                  name: "Temps passé",
+                  repets: weekData.duration,
+                });
+              }
               allDataByWeeks[idxWeek][sportData.sport] = addData;
             }
             return true;
@@ -282,6 +327,12 @@ class Durations extends React.Component {
               name: "Total",
               ...week.total,
             });
+          if (week.hasOwnProperty("duration")) {
+            addData.push({
+              name: "Temps passé",
+              repets: week.duration,
+            });
+          }
           return {
             week: week.week,
             [sportData.sport]: addData,
