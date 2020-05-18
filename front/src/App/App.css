@@ -132,3 +132,7 @@ input[type="number"] {
 .has-sm-text {
     font-size: 12px;
 }
+
+.calendar-container {
+    height: 200px;
+}

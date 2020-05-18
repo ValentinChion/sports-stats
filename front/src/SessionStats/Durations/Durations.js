@@ -121,9 +121,7 @@ class Durations extends React.Component {
                 sportSessionsByWeeks[idxWeek].total.time += totalTime;
                 sportSessionsByWeeks[idxWeek].total.allure.push(totalTime / +exercise.kms);
               } else if (!firstExerciseLoopWeek) {
-                console.log(session.duration, sportSessionsByWeeks[idxWeek].duration);
                 sportSessionsByWeeks[idxWeek].duration += (+session.duration);
-                console.log(sportSessionsByWeeks[idxWeek].duration);
                 firstExerciseLoopWeek = true;
               }
 
