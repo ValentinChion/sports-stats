@@ -7,7 +7,9 @@ import storageHandler from './localStorage/storage';
 
 const globalUtils = {
   formatDuration: (seconds) => {
-    return moment.utc(moment.duration(seconds, "seconds").asMilliseconds()).format("HH:mm:ss");
+    if (seconds < 3600) return moment.utc(moment.duration(seconds, "seconds").asMilliseconds()).format("mm:ss");
+    else if (seconds < 86400) return moment.utc(moment.duration(seconds, "seconds").asMilliseconds()).format("HH:mm:ss");
+    else return moment.utc(moment.duration(seconds, "seconds").asMilliseconds()).format("DD.HH:mm:ss");
   },
 
   stringDurationAsSeconds: (duration) => {

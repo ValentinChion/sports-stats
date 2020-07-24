@@ -5,12 +5,15 @@ import storageHandler from '../../utils/localStorage/storage';
 import moment from 'moment';
 import weightTrainingUtils from '../../utils/weightTrainingUtils';
 import runningUtils from '../../utils/runningUtils';
+import basketBallUtils from '../../utils/basketballUtils';
+import globalUtils from '../../utils/globalUtils';
 
 class All extends React.Component {
   state = {
     weightCount: undefined,
     weightTraining: undefined,
     runningCount: undefined,
+    basketball: undefined
   }
 
   componentDidMount() {
@@ -21,15 +24,21 @@ class All extends React.Component {
       const sportData = storageHandler.get(element);
       if (!storageHandler.isError(sportData)
           && sportData[0].hasOwnProperty("sessions")) {
-        if (element !== "running") {
-          name = "weightCount";
+        if (element === "weightTraining") {
+          name = "weightCount"; 
           count = weightTrainingUtils.count(sportData[0]);
-        } else {
+        } else if (element === "running") {
           name = "runningCount";
           count = {
             tots: runningUtils.countKmsAndTime(sportData[0]),
             // TODO --> Code Times
             totsByEx: runningUtils.countKmsAndTimeByEx(sportData[0])
+          }
+        } else {
+          name = "basketball";
+          count = {
+            'Temps Passé': globalUtils.formatDuration(basketBallUtils.countTime(sportData[0])),
+            'Intensité Moyenne': basketBallUtils.averageIntensity(sportData[0])  
           }
         }
       }
@@ -61,7 +70,8 @@ class All extends React.Component {
       <>
         <AllDisplayer weightCount={this.state.weightCount}
                       weightTraining={this.state.weightTraining}
-                      runningCount={this.state.runningCount}/>
+                      runningCount={this.state.runningCount}
+                      basketball={this.state.basketball}/>
       </>
     )
   }

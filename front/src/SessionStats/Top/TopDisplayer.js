@@ -9,7 +9,7 @@ class TopDisplayer extends React.Component {
     return (
       <>
         <NumbersInJSONDisplayer title="MEILLEUR RÉPÉTITIONS EN UNE SÉANCE" numbers={weightTrainingMaxs} colorClassName="emphasize" />
-        {runningMaxs && <NumbersInJSONDisplayer title="PLUS GRANDE DISTANCE" unit="km" numbers={runningMaxs.distances} colorClassName="emphasize" />}
+        {runningMaxs && <NumbersInJSONDisplayer title="PLUS LONGUES SEANCES" unit="km" numbers={runningMaxs.distances} colorClassName="emphasize" />}
         {runningMaxs && <NumbersInJSONDisplayer title="MEILLEUR TEMPS" units={["km", "", "/ km"]} numbers={runningMaxs.byTime} areTripleNumbers={true} colorClassName="emphasize" />}
       </>
     );

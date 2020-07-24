@@ -3,7 +3,6 @@ import React from "react";
 import TopDisplayer from "./TopDisplayer";
 import constants from "../../utils/constants/global";
 import storageHandler from "../../utils/localStorage/storage";
-import moment from "moment";
 import arrayUtils from "../../utils/arrayUtils";
 import runningUtils from "../../utils/runningUtils";
 import globalUtils from "../../utils/globalUtils";
@@ -22,7 +21,7 @@ class Top extends React.Component {
       const element = constants.AVAILABLE_SPORTS[i];
       const sportData = storageHandler.get(element);
       if (!storageHandler.isError(sportData) && sportData[0].hasOwnProperty("sessions")) {
-        if (element !== "running") {
+        if (element === "weightTraining") {
           name = "weightTrainingMaxs";
           maxs = sportData[0].sessions.reduce((acc, current) => {
             current.exercises.map((exercise) => {
@@ -30,11 +29,12 @@ class Top extends React.Component {
               if (acc[exercise.name]) {
                 acc[exercise.name] = Math.max(acc[exercise.name], exercise.training);
               } else acc[exercise.name] = exercise.training;
+              return true;
             });
 
             return acc;
           }, {});
-        } else {
+        } else if (element === "running") {
           name = "runningMaxs";
           maxs = sportData[0].sessions.reduce((accSes, session) => {
             if (!accSes.distances) accSes.distances = {};
@@ -54,7 +54,7 @@ class Top extends React.Component {
                     accSes.byTime[exercise.name] = {
                       "Distance Parcourue": exercise.kms,
                       "Temps Écoulé": currTime,
-                      "Allure Moyenne": currTime/exercise.kms,
+                      "Allure Moyenne": currTime / exercise.kms,
                     };
                   }
                 } else {
@@ -64,13 +64,14 @@ class Top extends React.Component {
                   };
                 }
               }
+              return true;
             });
             return accSes;
           }, {});
         }
 
         if (maxs && name) {
-          if (element !== "running") {
+          if (element === "weightTraining") {
             sportData[0].exercises.map((exercise) => {
               if (!maxs.hasOwnProperty(exercise.name)) {
                 maxs[exercise.name] = 0;
@@ -79,13 +80,15 @@ class Top extends React.Component {
                   maxs[exercise.name] = globalUtils.formatDuration(maxs[exercise.name]);
                 }
               }
+              return true;
             });
-          } else {
+          } else if (element === "running") {
             // Reformat data for display
             const byTimeKeys = Object.keys(maxs.byTime);
             byTimeKeys.map((byTimeKey) => {
               maxs.byTime[byTimeKey]["Temps Écoulé"] = globalUtils.formatDuration(maxs.byTime[byTimeKey]["Temps Écoulé"]);
               maxs.byTime[byTimeKey]["Allure Moyenne"] = globalUtils.formatDuration(maxs.byTime[byTimeKey]["Allure Moyenne"]);
+              return true;
             });
           }
 

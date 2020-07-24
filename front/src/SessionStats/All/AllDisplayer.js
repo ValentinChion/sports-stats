@@ -11,6 +11,7 @@ class AllDisplayer extends React.Component {
       weightCount,
       weightTraining,
       runningCount,
+      basketball
     } = this.props;
 
     return (
@@ -25,6 +26,9 @@ class AllDisplayer extends React.Component {
                                                  colorClassName="emphasize"
                                                  unit="km"
                                                  numbers={runningCount.totsByEx}/>}
+        {basketball && <NumbersInJSONDisplayer title="BASKET-BALL"
+                                               colorClassName="emphasize"
+                                               numbers={basketball} />}
         
       </>
     )

@@ -17,7 +17,7 @@ class Durations extends React.Component {
     for (let i = 0; i < constants.AVAILABLE_SPORTS.length; i++) {
       const element = constants.AVAILABLE_SPORTS[i];
       const sportData = storageHandler.get(element);
-      if (!storageHandler.isError(sportData) && sportData[0].hasOwnProperty("sessions")) {
+      if (!storageHandler.isError(sportData) && sportData[0].hasOwnProperty("sessions") && element !== "basketball" ) {
         // Handle Data for stats by months
         const sportSessions = globalUtils.sortByDate(sportData[0].sessions);
         let startMonth = moment(sportSessions[0].date).startOf("month");
@@ -47,7 +47,7 @@ class Durations extends React.Component {
                   sportSessionsByMonths[idxMonth].total.allure[0] += totalTime;
                   sportSessionsByMonths[idxMonth].total.allure[1] += +exercise.kms;
                 }
-              } else if (!firstExerciseLoopMonth) {
+              } else if (element === "weightTraining" && !firstExerciseLoopMonth) {
                 sportSessionsByMonths[idxMonth].duration += +session.duration;
                 firstExerciseLoopMonth = true;
               }
