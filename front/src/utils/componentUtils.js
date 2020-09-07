@@ -42,7 +42,6 @@ const componentUtils = {
   ),
 
   createCalendar: ({ data }) => {
-    console.log(data[0].day, data[data.length-1].day);
     return (
       <ResponsiveCalendar
         data={data}

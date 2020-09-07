@@ -1,5 +1,6 @@
 import React from 'react';
 import NumbersInJSONDisplayer from '../../Components/NumbersInJSONDisplayer';
+import runningUtils from '../../utils/runningUtils';
 
 class AllDisplayer extends React.Component {
   state = {
@@ -9,7 +10,7 @@ class AllDisplayer extends React.Component {
   render() {
     const {
       weightCount,
-      weightTraining,
+      weightTime,
       runningCount,
       basketball
     } = this.props;
@@ -19,6 +20,9 @@ class AllDisplayer extends React.Component {
         <NumbersInJSONDisplayer title="RÉPÉTITIONS EFFECTUÉES"
                                 colorClassName="emphasize"
                                 numbers={weightCount}/>
+        <NumbersInJSONDisplayer title="MUSCULATION"
+                                colorClassName="emphasize"
+                                numbers={weightTime}/>
         {runningCount && <NumbersInJSONDisplayer title="DISTANCE PARCOURUE"
                                                  colorClassName="emphasize"
                                                  numbers={runningCount.tots}/>}

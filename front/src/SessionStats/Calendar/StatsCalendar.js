@@ -3,6 +3,7 @@ import StatsCalendarDisplayer from "./StatsCalendarDisplayer";
 import globalUtils from "../../utils/globalUtils";
 import moment from "moment";
 import runningUtils from "../../utils/runningUtils";
+import constants from '../../utils/constants/basketball';
 
 class StatsCalendar extends React.Component {
   state = {
@@ -40,11 +41,16 @@ class StatsCalendar extends React.Component {
                 valueOfSession = Math.round(Math.min((valueOfSession * kmFactor) / (3 * allureRatio ** 3), maxValue));
               }
             });
-          } else {
+          } else if (sportName === "weightTraining") {
             const sessionDuration = +(session.duration);
             valueOfSession = Math.round(Math.min(valueOfSession * (sessionDuration ** 2) / 400000, maxValue));
+          } else {
+            const sessionDuration = +(session.duration);
+            const intensityTraining = +(session.intensity);
+            valueOfSession = Math.round((sessionDuration * intensityTraining) / constants.RATIO_FOR_CALENDAR);
           }
-          const dateToAdd = moment(session.date).format("YYYY-MM-DD");
+          let dateToAdd = session.date || session.sessionDate;
+          dateToAdd = moment(dateToAdd).format("YYYY-MM-DD") ;
 
           sessions.push({day: dateToAdd, date: moment(session.date), value: valueOfSession})
           return true;

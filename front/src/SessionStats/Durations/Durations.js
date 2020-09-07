@@ -247,26 +247,44 @@ class Durations extends React.Component {
     // From sport data per months, we go to all sports data per months.
     let allDataByMonths = [];
     months.map((sportData) => {
-      if (allDataByMonths.length) {
+      const currLength = allDataByMonths.length;
+      if (currLength) {
         sportData.months.map((monthData) => {
+          let isNewMonth = true;
+          let addData = monthData.exercises;
+          if (monthData.hasOwnProperty("total"))
+            addData.push({
+              name: "Total",
+              ...monthData.total,
+            });
+          if (monthData.hasOwnProperty("duration")) {
+            addData.push({
+              name: "Temps passé",
+              repets: monthData.duration,
+            });
+          }
+
           allDataByMonths.map((newMonthData, idxMonth) => {
             if (newMonthData.month === monthData.month) {
-              let addData = monthData.exercises;
-              if (monthData.hasOwnProperty("total"))
-                addData.push({
-                  name: "Total",
-                  ...monthData.total,
-                });
-              if (monthData.hasOwnProperty("duration")) {
-                addData.push({
-                  name: "Temps passé",
-                  repets: monthData.duration,
-                });
-              }
               allDataByMonths[idxMonth][sportData.sport] = addData;
+              isNewMonth = false;
             }
             return true;
           });
+          if (isNewMonth) {
+          // TODO --> Check if it's still working in October
+            const dataWithMonth = {
+              'month': monthData.month,
+              [sportData.sport]: addData
+            } 
+            if (allDataByMonths.length === currLength) {
+              allDataByMonths.unshift(dataWithMonth);
+            } else {
+              const dataToExchange = allDataByMonths[allDataByMonths.length - currLength - 1];
+              allDataByMonths[allDataByMonths.length - currLength - 1] = dataWithMonth;
+              allDataByMonths.unshift(dataToExchange);
+            }
+          }
           return true;
         });
       } else {

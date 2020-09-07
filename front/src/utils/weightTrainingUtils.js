@@ -2,6 +2,7 @@
  * Utils to manipulate Weight Training data
  */
 import globalUtils from './globalUtils';
+import arrayUtils from './arrayUtils';
 
 const weightTrainingUtils = {
     count: (weightTrainingData) => {
@@ -51,6 +52,11 @@ const weightTrainingUtils = {
             return "";
         });
         return count
+    },
+
+    timePassed: (weightTrainingData) => {
+        if (!weightTrainingData.sessions.length) return 0
+        else return weightTrainingData.sessions.map(session => session.duration).reduce(arrayUtils.sumReducer)
     }
 };
 

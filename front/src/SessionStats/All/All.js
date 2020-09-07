@@ -19,6 +19,7 @@ class All extends React.Component {
   componentDidMount() {
     let count;
     let name;
+    let countTimeWeight;
     for (let i = 0; i < constants.AVAILABLE_SPORTS.length; i++) {
       const element = constants.AVAILABLE_SPORTS[i];
       const sportData = storageHandler.get(element);
@@ -27,6 +28,8 @@ class All extends React.Component {
         if (element === "weightTraining") {
           name = "weightCount"; 
           count = weightTrainingUtils.count(sportData[0]);
+          // Small hack to get also time passed in weighTraining
+          countTimeWeight = globalUtils.formatDuration(weightTrainingUtils.timePassed(sportData[0]))
         } else if (element === "running") {
           name = "runningCount";
           count = {
@@ -53,6 +56,12 @@ class All extends React.Component {
         [element]: sportData[0],
         [name]: count
       })
+      if (countTimeWeight) (
+        this.setState({
+          'weightTime': {"Temps Passé": countTimeWeight}
+        })
+      )
+      countTimeWeight = undefined;
     }
     
     document.addEventListener('storageSet', this.handleNewSession, false);
@@ -69,6 +78,7 @@ class All extends React.Component {
     return (
       <>
         <AllDisplayer weightCount={this.state.weightCount}
+                      weightTime={this.state.weightTime}
                       weightTraining={this.state.weightTraining}
                       runningCount={this.state.runningCount}
                       basketball={this.state.basketball}/>
