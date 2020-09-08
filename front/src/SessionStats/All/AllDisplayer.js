@@ -1,6 +1,6 @@
 import React from 'react';
 import NumbersInJSONDisplayer from '../../Components/NumbersInJSONDisplayer';
-import runningUtils from '../../utils/runningUtils';
+import constants from '../../utils/constants/weight';
 
 class AllDisplayer extends React.Component {
   state = {
@@ -8,18 +8,30 @@ class AllDisplayer extends React.Component {
   }
 
   render() {
-    const {
+    let {
       weightCount,
       weightTime,
       runningCount,
       basketball
     } = this.props;
 
+    if (weightCount) {
+      const addToTime = constants.EXERCICES_TO_INCLUDE.reduce((acc, curr) => {
+        acc[curr] = weightCount[curr];
+        return acc
+      }, {});
+      weightTime = {
+        ...addToTime,
+        ...weightTime
+      }
+    }
     return (
       <>
-        <NumbersInJSONDisplayer title="RÉPÉTITIONS EFFECTUÉES"
+        {
+          /*<NumbersInJSONDisplayer title="RÉPÉTITIONS EFFECTUÉES"
                                 colorClassName="emphasize"
-                                numbers={weightCount}/>
+                                numbers={weightCount}/>*/
+        }
         <NumbersInJSONDisplayer title="MUSCULATION"
                                 colorClassName="emphasize"
                                 numbers={weightTime}/>

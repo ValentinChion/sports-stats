@@ -58,7 +58,7 @@ class All extends React.Component {
       })
       if (countTimeWeight) (
         this.setState({
-          'weightTime': {"Temps Passé": countTimeWeight}
+          'weightTime': {"Total": countTimeWeight}
         })
       )
       countTimeWeight = undefined;
